@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+
+
+while 1 :
+    input = float(raw_input())
+    if input == 0.0 :
+        #print "out!"
+        break
+    ret = 0.0
+    for i in range(2,10000):
+        ret += (1.0/i)
+        #print i," ret=",ret
+        if ret >= input:
+            print i-1,"card(s)"
+            break
