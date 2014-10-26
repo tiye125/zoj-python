@@ -1,0 +1,78 @@
+#!/usr/bin/python
+
+map = [[],[],[],[]];
+
+num = 0;
+ans = 0;
+tmp = 0;
+
+def check(x,y):
+    global tmp,ans,num;
+    if x >= num or y >= num:
+        return 0;
+    if map[x][y] != '.':
+        return 0;
+    for i in range(x-1,-1,-1):
+        if map[i][y] == 'M':
+            return 0;
+        elif map[i][y] == 'X':
+            break;
+    for i in range(x+1, num):
+        if map[i][y] == 'M':
+            return 0;
+        elif map[i][y] == 'X':
+            break;
+
+
+    for i in range(y-1,-1,-1):
+        if map[x][i] == 'M':
+            return 0;
+        elif map[x][i] == 'X':
+            break;
+    for i in range(y+1,num):
+        if map[x][i] == 'M':
+            return 0;
+        elif map[x][i] == 'X':
+            break;
+
+    return 1;
+
+
+def map_print():
+    for i in range(0,num):
+        print map[i];
+    return
+
+def dfs(pos):
+    global tmp,ans,num
+    #print "pos:",pos
+    #print map[pos/num][pos%num],
+    for i in range(pos,num*num):
+        x=i/num;
+        y=i%num;
+        #print "pos:",pos,"x:",x,"y:",y
+        if check(x,y) == 1:
+            tmp+=1;
+            if tmp > ans:
+                ans = tmp;
+            map[x] = map[x][:y]+'M'+map[x][y+1:];
+            #print "x:",x,"y:",y
+            #map_print();
+            dfs(pos+1);
+            map[x] = map[x][:y]+'.'+map[x][y+1:];
+            tmp-=1;
+    return
+
+
+while 1 :
+    num = int(raw_input());
+    if num == 0:
+        #print "out"
+        break;
+
+    for i in range(0,num):
+        map[i] = raw_input()
+    ans = 0;
+    tmp = 0;
+    dfs(0)
+    print ans
