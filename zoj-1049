@@ -1,0 +1,18 @@
+#!/usr/bin/python
+
+
+PI = 3.1415926
+
+n = int(raw_input())
+i = 0
+while n > i:
+    i+=1
+    a = raw_input().split(' ')
+    x = float(a[0])
+    y = float(a[1])
+    #print x,y
+    r2 = x*x + y*y
+    area = PI*r2
+    year = int(area/100.0) + 1
+    print "Property %d: This property will begin eroding in year %d."%(i,year)
+print "END OF OUTPUT."
