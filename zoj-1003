@@ -1,0 +1,78 @@
+#!/usr/bin/python2.7
+
+mx = 100
+
+a = [[0 for x in range(mx)] for y in range(mx)]
+b = [[0 for x in range(mx)] for y in range(mx)]
+ac = 0
+bc = 0
+def init(array,x,y):
+    for i in range(0,x):
+        for j in range(0,y):
+            array[i][j] = 0
+    return
+
+def dfs(a,ac,ans,pos,num,sum):
+    new_ac = 0
+    for i in range(num, 101):
+        if sum == i:
+            ans[pos] = i
+            for j in range(0,pos+1):
+                a[ac+new_ac][j] = ans[j]
+            new_ac += 1
+            break
+
+        if sum%i == 0:
+            ans[pos] = i
+            new_ac += dfs(a,ac+new_ac,ans,pos+1,i+1,sum/i)
+    return new_ac
+def is_cover(a,b):
+    for i in range(0,100):
+        if a[i] == 0:
+            break
+        for j in range(0,100):
+            if b[j] == 0:
+                break;
+            if a[i] == b[j]:
+                return 1;
+    '''print "find it!"
+    print a
+    print b'''
+    return 0
+while 1:
+    try:
+        line_array = raw_input().split(' ')
+    except EOFError:
+        break
+    n = int(line_array[0])
+    m = int(line_array[1])
+    #print n,m
+    tmp = [0 for x in range(100)]
+    init(a,mx,mx)
+    init(b,mx,mx)
+    ac = dfs(a,0,tmp,0,2,n)
+    bc = dfs(b,0,tmp,0,2,m)
+    '''print ac,bc
+    print a
+    print b'''
+    find_it = 0
+    for i in range(0,ac):
+        for j in range(0,bc):
+            ret = is_cover(a[i],b[j])
+            if ret == 0:
+                find_it = 1
+                break;
+        if find_it == 1:
+            break;
+    min_one = 0;
+    max_one = 0;
+    if m > n:
+        max_one=m;
+        min_one=n;
+    else:
+        max_one=n;
+        min_one=m;
+    if find_it == 0 and min_one != 1:
+        print min_one
+    else:
+        print max_one
